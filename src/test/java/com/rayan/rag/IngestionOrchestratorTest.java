@@ -1,0 +1,28 @@
+package com.rayan.rag;
+
+import com.rayan.rag.ingestion.IngestionOrchestrator;
+import com.rayan.rag.ingestion.model.IngestDocument;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
+
+@SpringBootTest
+public class IngestionOrchestratorTest {
+    @Autowired
+    private IngestionOrchestrator ingestionOrchestrator;
+
+    @Test
+    void ingestAll() throws Exception {
+        List<IngestDocument> docs = ingestionOrchestrator.ingestAll();
+        System.out.println("Total docs = " + docs.size());
+
+        docs.forEach(doc -> {
+            System.out.println("Source: " + doc.getSource());
+            System.out.println(doc.getSource());
+            System.out.println("======================");
+
+        });
+    }
+}
