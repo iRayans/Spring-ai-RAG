@@ -1,7 +1,7 @@
 package com.rayan.rag;
 
 import com.rayan.rag.ingestion.IngestionOrchestrator;
-import com.rayan.rag.ingestion.model.IngestDocument;
+import com.rayan.rag.ingestion.model.IngestedDocument;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,7 +15,7 @@ public class IngestionOrchestratorTest {
 
     @Test
     void ingestAll() throws Exception {
-        List<IngestDocument> docs = ingestionOrchestrator.ingestAll();
+        List<IngestedDocument> docs = ingestionOrchestrator.ingestAll();
         System.out.println("Total docs = " + docs.size());
 
         docs.forEach(doc -> {

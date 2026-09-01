@@ -1,6 +1,6 @@
 package com.rayan.rag.ingestion.pdf;
 
-import com.rayan.rag.ingestion.model.IngestDocument;
+import com.rayan.rag.ingestion.model.IngestedDocument;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
@@ -17,10 +17,10 @@ public class PdfIngestionService {
 
     private static final String PDF_DIR = "data/pdfs";
 
-    public List<IngestDocument> ingestPdfs() throws Exception {
+    public List<IngestedDocument> ingestPdfs() throws Exception {
         File[] pdfFiles = new File(PDF_DIR).listFiles();
 
-        List<IngestDocument> docs = new ArrayList<>();
+        List<IngestedDocument> docs = new ArrayList<>();
 
         for (File pdfFile : pdfFiles) {
             docs.add(ingestSinglePdf(pdfFile));
@@ -29,17 +29,14 @@ public class PdfIngestionService {
         return docs;
     }
 
-    private IngestDocument ingestSinglePdf(File pdfFile) throws Exception {
+    private IngestedDocument ingestSinglePdf(File pdfFile) throws Exception {
         log.info("Ingesting PDF: {}", pdfFile.getName());
 
         try (PDDocument document = PDDocument.load(pdfFile)) {
             PDFTextStripper stripper = new PDFTextStripper();
             String text = stripper.getText(document);
 
-            log.info("------ Extracted Text ({}) ------", pdfFile.getName());
-            log.info(text);
-
-            return new IngestDocument(
+            return new IngestedDocument(
                     "PDF",
                     text,
                     Map.of("filename", pdfFile.getName())

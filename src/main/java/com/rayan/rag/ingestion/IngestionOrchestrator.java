@@ -1,7 +1,7 @@
 package com.rayan.rag.ingestion;
 
 import com.rayan.rag.ingestion.db.DatabaseIngestionService;
-import com.rayan.rag.ingestion.model.IngestDocument;
+import com.rayan.rag.ingestion.model.IngestedDocument;
 import com.rayan.rag.ingestion.pdf.PdfIngestionService;
 import com.rayan.rag.ingestion.wiki.WikiIngestionService;
 import lombok.AllArgsConstructor;
@@ -18,8 +18,8 @@ public class IngestionOrchestrator {
     private final WikiIngestionService wikiIngestionService;
     private final DatabaseIngestionService databaseIngestionService;
 
-    public List<IngestDocument> ingestAll() throws Exception {
-        List<IngestDocument> docs = new ArrayList<>();
+    public List<IngestedDocument> ingestAll() throws Exception {
+        List<IngestedDocument> docs = new ArrayList<>();
         docs.addAll(pdfIngestionService.ingestPdfs());
         docs.addAll(wikiIngestionService.ingestWikiFiles());
         docs.addAll(databaseIngestionService.ingestDatabaseContent());

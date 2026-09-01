@@ -7,7 +7,7 @@ import java.util.Map;
 
 @Getter
 @AllArgsConstructor
-public class IngestDocument {
+public class IngestedDocument {
     private String source; // PDF, WIKI, DB
     private String content;
     private Map<String, Object> metadata;

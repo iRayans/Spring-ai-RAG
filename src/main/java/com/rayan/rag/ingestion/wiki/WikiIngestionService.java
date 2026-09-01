@@ -1,6 +1,6 @@
 package com.rayan.rag.ingestion.wiki;
 
-import com.rayan.rag.ingestion.model.IngestDocument;
+import com.rayan.rag.ingestion.model.IngestedDocument;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +18,10 @@ public class WikiIngestionService {
     private static final String WIKI_DIR = "data/wiki";
 
 
-    public List<IngestDocument> ingestWikiFiles() throws IOException {
+    public List<IngestedDocument> ingestWikiFiles() throws IOException {
         File[] markdownFiles = new File(WIKI_DIR).listFiles();
 
-        List<IngestDocument> docs = new ArrayList<>();
+        List<IngestedDocument> docs = new ArrayList<>();
 
         for (File file : markdownFiles) {
             docs.add(ingestSingleFile(file));
@@ -29,15 +29,12 @@ public class WikiIngestionService {
         return docs;
     }
 
-    private IngestDocument ingestSingleFile(File file) throws IOException {
+    private IngestedDocument ingestSingleFile(File file) throws IOException {
         log.info("Ingesting a wiki file: {}", file.getName());
 
         String content = Files.readString(file.toPath());
 
-        log.info("------- Wiki Content ({}) -------", file.getName());
-        log.info(content);
-
-        return new IngestDocument(
+        return new IngestedDocument(
                 "WIKI",
                 content,
                 Map.of("filename", file.getName())
