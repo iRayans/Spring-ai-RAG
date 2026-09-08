@@ -19,7 +19,7 @@ public class PdfPragmaticChunker {
 
     private final FixedSizeChunker fixedSizeChunker;
 
-    public List<Chunk> chunks(IngestedDocument document) {
+    public List<Chunk> chunk(IngestedDocument document) {
         List<Chunk> rawChunks = fixedSizeChunker.chunk(document, PDF_CHUNK_SIZE, PDF_CHUNK_OVERLAP);
 
         return rawChunks.stream()
