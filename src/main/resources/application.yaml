@@ -13,3 +13,7 @@ spring:
     username: nexa
     password: nexa
     driver-class-name: org.postgresql.Driver
+  data:
+    redis:
+      host: localhost
+      port: 6379
