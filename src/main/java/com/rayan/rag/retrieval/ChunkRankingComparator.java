@@ -26,7 +26,6 @@ public class ChunkRankingComparator implements Comparator<Chunk> {
                 return tableCompare;
             }
         }
-
         // 3. Recency
         LocalDate dateA = extractRelevantDate(a);
         LocalDate dateB = extractRelevantDate(b);
