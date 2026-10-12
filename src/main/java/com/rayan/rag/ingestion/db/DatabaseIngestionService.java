@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,18 @@ public class DatabaseIngestionService {
 
     private final JdbcTemplate jdbcTemplate;
 
+    public List<IngestedDocument> ingest(String tableName) throws Exception {
+        if ("faqs".equals(tableName)) {
+            return ingestFaqs();
+        }
+        if ("release_notes".equals(tableName)) {
+            return ingestReleaseNotes();
+        }
+        if ("announcements".equals(tableName)) {
+            return ingestAnnouncements();
+        }
+        return Collections.emptyList();
+    }
 
     public List<IngestedDocument> ingestDatabaseContent() {
         List<IngestedDocument> docs = new ArrayList<>();
@@ -42,6 +55,7 @@ public class DatabaseIngestionService {
                     "DB",
                     content,
                     Map.of("table", "faqs",
+                            "identity", "DB#faqs",
                             "id", row.get("id"),
                             "department", row.get("department"),
                             "visibility", row.get("visibility")
@@ -66,6 +80,7 @@ public class DatabaseIngestionService {
                     "DB",
                     content,
                     Map.of("table", "Release Notes",
+                            "identity", "DB#release_notes",
                             "id", row.get("id"),
                             "version", row.get("version"),
                             "releaseDate", row.get("release_date")
@@ -90,6 +105,7 @@ public class DatabaseIngestionService {
                     "DB",
                     content,
                     Map.of("table", "Announcements",
+                            "identity", "DB#announcements",
                             "id", row.get("id"),
                             "category", row.get("category"),
                             "effectiveFrom", row.get("effective_from"),

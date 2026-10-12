@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,14 @@ import java.util.Map;
 public class PdfIngestionService {
 
     private static final String PDF_DIR = "data/pdfs";
+
+
+    public List<IngestedDocument> ingest(String filename) throws Exception {
+        File pdfFile = new File(PDF_DIR + "/" + filename);
+        IngestedDocument doc = ingestSinglePdf(pdfFile);
+        return Collections.singletonList(doc);
+    }
+
 
     public List<IngestedDocument> ingestPdfs() throws Exception {
         File[] pdfFiles = new File(PDF_DIR).listFiles();
@@ -39,7 +48,7 @@ public class PdfIngestionService {
             return new IngestedDocument(
                     "PDF",
                     text,
-                    Map.of("filename", pdfFile.getName())
+                    Map.of("filename", pdfFile.getName(), "identity", "PDF#" + pdfFile.getName())
             );
         }
     }
