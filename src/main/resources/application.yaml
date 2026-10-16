@@ -1,19 +1,11 @@
 spring:
+  profiles:
+    default: local
   ai:
     openai:
       api-key: ${OPENAI_KEY}
       chat:
         options:
-          model: gpt-3.5-turbo
+          model: gpt-4o-mini
   application:
     name: RAG
-  # Database Configuration
-  datasource:
-    url: jdbc:postgresql://localhost:5432/nexacorp_knowledge
-    username: nexa
-    password: nexa
-    driver-class-name: org.postgresql.Driver
-  data:
-    redis:
-      host: localhost
-      port: 6379

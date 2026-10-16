@@ -6,6 +6,7 @@ import org.springframework.ai.vectorstore.redis.RedisVectorStore;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import redis.clients.jedis.DefaultJedisClientConfig;
 import redis.clients.jedis.RedisClient;
 
 @Configuration
@@ -13,8 +14,12 @@ public class VectorStoreConfig {
 
     @Value("${spring.data.redis.host}")
     private String redisHost;
-    @Value("${spring.data.redis.port}")
+
+    @Value("${spring.data.redis.port:6379}")
     private Integer port;
+
+    @Value("${spring.data.redis.ssl.enabled:false}")
+    private boolean redisSslEnabled;
 
     @Bean(name = "customVectorStore")
     public VectorStore vectorStore(RedisClient redisClient, EmbeddingModel embeddingModel) {
@@ -50,6 +55,13 @@ public class VectorStoreConfig {
 
     @Bean
     public RedisClient redisClient() {
-        return RedisClient.builder().hostAndPort(redisHost, port).build();
+        var config = DefaultJedisClientConfig.builder()
+                .ssl(redisSslEnabled)
+                .build();
+
+        return RedisClient.builder()
+                .hostAndPort(redisHost, port)
+                .clientConfig(config)
+                .build();
     }
 }
